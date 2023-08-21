@@ -1,5 +1,15 @@
 import { useState, useEffect } from 'react'
 
+function decodeHTMLEntities (str) {
+    if(str && typeof str === 'string') {
+      // strip script/html tags
+      str = str.replace(/<script[^>]*>([\S\s]*?)<\/script>/gmi, '');
+      str = str.replace(/<\/?\w(?:[^"'>]|"[^"]*"|'[^']*')*>/gmi, '');
+    }
+
+    return str;
+}
+
 function QuizQuestion(props) {
     const [selected, setSelected] = useState("")
 
@@ -13,7 +23,7 @@ function QuizQuestion(props) {
 
     return (
         <div className="m-5">
-            <h1 className="text-lg font-bold">{props.quizContent.question}</h1>
+            <h1 className="text-lg font-bold">{decodeHTMLEntities(props.quizContent.question)}</h1>
 
             <div className="join join-vertical lg:join-horizontal my-5">
                 {props.questions.map((v, k) => {
